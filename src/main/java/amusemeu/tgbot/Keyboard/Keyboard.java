@@ -29,6 +29,8 @@ public class Keyboard {
         inlineKeyboardButton1.setCallbackData("Word");
         inlineKeyboardButton2.setText("Send quote");
         inlineKeyboardButton2.setCallbackData("Quote");
+        inlineKeyboardButton3.setText("Random fact");
+        inlineKeyboardButton3.setCallbackData("Fact");
 
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
@@ -36,6 +38,7 @@ public class Keyboard {
         keyboardButtonsRow1.add(inlineKeyboardButton);
         keyboardButtonsRow1.add(inlineKeyboardButton1);
         keyboardButtonsRow2.add(inlineKeyboardButton2);
+        keyboardButtonsRow2.add(inlineKeyboardButton3);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);

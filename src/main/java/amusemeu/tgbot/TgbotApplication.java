@@ -1,6 +1,7 @@
 package amusemeu.tgbot;
 
 import amusemeu.tgbot.Keyboard.Keyboard;
+import amusemeu.tgbot.pageParsers.FactPageParser;
 import amusemeu.tgbot.pageParsers.MemePageParser;
 import amusemeu.tgbot.pageParsers.QuotePageParser;
 import amusemeu.tgbot.pageParsers.WordOfADayParser;
@@ -32,6 +33,7 @@ public class TgbotApplication extends TelegramLongPollingBot {
 			e.printStackTrace();
 		}
 	}
+
 
 	@Value("${bot.username}")
 	private static String username;
@@ -86,6 +88,15 @@ public class TgbotApplication extends TelegramLongPollingBot {
 				try {
 					execute(new SendPhoto(chat_idd, new InputFile(WordOfADayParser.WORDIMAGE)));
 					execute(new SendMessage(chat_idd, WordOfADayParser.getUrlWord()));
+				} catch (TelegramApiException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else if (data.equals("Fact")) {
+				try {
+					execute(new SendMessage(chat_idd, FactPageParser.getUrlFact()));
 				} catch (TelegramApiException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
