@@ -1,11 +1,8 @@
 package amusemeu.tgbot;
 
+import amusemeu.tgbot.BotDialog.BotDialog;
 import amusemeu.tgbot.Keyboard.Keyboard;
-import amusemeu.tgbot.pageParsers.FactPageParser;
-import amusemeu.tgbot.pageParsers.MemePageParser;
-import amusemeu.tgbot.pageParsers.QuotePageParser;
-import amusemeu.tgbot.pageParsers.WordOfADayParser;
-import org.springframework.beans.factory.annotation.Value;
+import amusemeu.tgbot.pageParsers.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -26,6 +23,9 @@ public class TgbotApplication extends TelegramLongPollingBot {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TgbotApplication.class, args);
+		//the way to chromedriver
+		System.setProperty("webdriver.chrome.driver", "/Users/amusemeu/Documents/JAVA/tgbot/selenium/chromedriver 5");
+
 		try {
 			TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
 			telegramBotsApi.registerBot(new TgbotApplication());
@@ -34,11 +34,14 @@ public class TgbotApplication extends TelegramLongPollingBot {
 		}
 	}
 
-
-	@Value("${bot.username}")
+	/*@Value("${bot.username}")
 	private static String username;
 	@Value("${bot.token}")
-	private static String token;
+	private static String token;*/
+
+	//fields for your bot's username and token
+	public  final String username = "";
+	public  final String token = "";
 
 	@Override
 	public String getBotUsername() {
@@ -126,21 +129,22 @@ public class TgbotApplication extends TelegramLongPollingBot {
 				e.printStackTrace();
 			}
 
-		} else if (update.getMessage() != null && update.getMessage().hasText() && update.getMessage().getText().contains("Саня")) {
+		} else if (update.getMessage() != null && update.getMessage().hasText()){
+
+
 		long chat_id = update.getMessage().getChatId();
 		String chat_idd = String.valueOf(chat_id);
 			User user = update.getMessage().getFrom();
 			String name = user.getFirstName();
-
+			int messgId = update.getMessage().getMessageId();
 		try {
-			execute(new SendMessage(chat_idd,  "Да, " + name + " ?"));
-			execute(new SendSticker(chat_idd, new InputFile("CAACAgQAAxkBAAEEWnliSFI8BxVD8F0z1Jklk6sV4FQM-QACMwEAAqghIQaDngab6f9thSME")));
-			execute(new SendMessage(chat_idd,  "Если нужна помощь - пиши /start" + " \uD83D\uDC81\u200D♂️"));
+			execute(new SendMessage(chat_idd, BotDialog.conversate(update.getMessage().getText())));
 		} catch (TelegramApiException e) {
 			e.printStackTrace();
-
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-	}
+		}
 	}
 }
 
